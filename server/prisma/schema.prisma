@@ -7,16 +7,17 @@ datasource db {
   provider = "postgresql"
 }
 
-model IncidentContent {
+model IncidentPost {
   id        String   @id
   createdAt DateTime @default(now()) @map("created_at")
 
   title String
-  body  String
+  body  String?
 
-  incidents Incident[]
+  incidentId String
+  incident   Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
 
-  @@map("incident_contents")
+  @@map("incident_posts")
 }
 
 model Incident {
@@ -24,17 +25,19 @@ model Incident {
   startedAt  DateTime  @default(now()) @map("started_at")
   resolvedAt DateTime? @map("resolved_at")
 
-  contentId String
-  content   IncidentContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  posts IncidentPost[]
 
   @@map("incidents")
 }
 
-model Disruption {
-  id        String @id
-  serviceId String
+model CheckResult {
+  id        BigInt @id @default(autoincrement())
+  checkId   String @map("check_id")
+  serviceId String @map("service_id")
 
-  disruptionAt DateTime @map("disruption_at")
+  checkedAt  DateTime @map("checked_at")
+  durationMs Int      @map("duration_ms")
+  success    Boolean
 
-  @@map("disruption")
+  @@map("check_results")
 }

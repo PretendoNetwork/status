@@ -8,20 +8,18 @@ export type StatusResponse = {
 	services: StatusService[];
 };
 
-export type IncidentContent = {
+export type IncidentPost = {
 	id: string;
 	createdAt: string;
 	title: string;
-	body: string;
+	body: string | null;
 };
-
-export type IncidentStatus = 'ongoing' | 'resolved';
 
 export type Incident = {
 	id: string;
 	startedAt: string;
 	resolvedAt: string | null;
-	content: IncidentContent;
+	posts: IncidentPost[];
 };
 
 export type IncidentList = {
