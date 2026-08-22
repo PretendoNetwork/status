@@ -6,24 +6,30 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div v-if="props.healthy">
+  <div
+    v-if="props.healthy"
+    class="status-container"
+  >
     <div class="status-circle healthy">
       <Icon name="ph:check-bold" />
     </div>
     <p
       v-if="props.text"
-      class="status-text"
+      class="status-text healthy"
     >
       Operational
     </p>
   </div>
-  <div v-else>
+  <div
+    v-else
+    class="status-container"
+  >
     <div class="status-circle unhealthy">
       <Icon name="ph:x-bold" />
     </div>
     <p
       v-if="props.text"
-      class="status-text"
+      class="status-text unhealthy"
     >
       Outage
     </p>
@@ -31,6 +37,12 @@ const props = defineProps<{
 </template>
 
 <style lang="css" scoped>
+.status-container {
+	display: flex;
+	gap: 0.5em;
+	align-items: center;
+}
+
 .status-circle {
 	height: 1.5rem;
 	width: 1.5rem;
@@ -48,5 +60,18 @@ const props = defineProps<{
 
 .status-circle.unhealthy {
 	background-color: #c53737;
+}
+
+.status-text {
+	font-size: 0.9em;
+	font-weight: bold;
+}
+
+.status-text.healthy {
+	color: #6ea73a;
+}
+
+.status-text.unhealthy {
+	color: #c53737;
 }
 </style>
