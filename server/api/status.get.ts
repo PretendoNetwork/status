@@ -1,15 +1,13 @@
+import { getServices } from '../plugins/checker';
 import type { StatusResponse } from '#shared/types';
 
 export default defineEventHandler(async (): Promise<StatusResponse> => {
+	const services = getServices();
 	return {
-		services: [{
-			id: 'web',
-			name: 'Website',
-			healthy: true
-		}, {
-			id: 'forum',
-			name: 'Community forum',
-			healthy: false
-		}]
+		services: services.map(v => ({
+			id: v.id,
+			name: v.name,
+			healthy: true // TODO get data from db
+		}))
 	};
 });

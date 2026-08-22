@@ -1,0 +1,19 @@
+{
+	"services": [
+		{
+			"id": "web",
+			"name": "Website"
+		}
+	],
+	"checks": [
+		{
+			"id": "web-check",
+			"serviceId": "web",
+			"schedule": "*/15 * * * * *",
+			"options": {
+				"type": "http",
+				"url": "https://pretendo.network"
+			}
+		}
+	]
+}

@@ -1,6 +1,7 @@
 import type { IncidentList } from '#shared/types';
 
 export default defineEventHandler(async (): Promise<IncidentList> => {
+	// TODO get data from db
 	return {
 		data: [{
 			id: '1234',
