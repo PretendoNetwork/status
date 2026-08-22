@@ -1,5 +1,6 @@
 import { getServices } from '../plugins/checker';
 import { Prisma } from '../prisma/generated/client';
+import { defineLocalCacheEventHandler } from '../utils/cache';
 import type { StatusResponse } from '#shared/types';
 
 type LatestCheckResult = {
@@ -10,7 +11,7 @@ type LatestCheckResult = {
 	success: boolean;
 };
 
-export default defineEventHandler(async (event): Promise<StatusResponse> => {
+export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, async (event) => {
 	const prisma = usePrisma(event);
 	const services = getServices();
 

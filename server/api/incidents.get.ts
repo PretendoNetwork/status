@@ -1,6 +1,6 @@
 import type { IncidentList } from '#shared/types';
 
-export default defineEventHandler(async (event): Promise<IncidentList> => {
+export default defineLocalCacheEventHandler<IncidentList>('incidents-cache', 15, async (event) => {
 	const prisma = usePrisma(event);
 
 	const activeIncidents = await prisma.incident.findMany({
