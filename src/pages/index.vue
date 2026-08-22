@@ -1,9 +1,15 @@
 <script lang="ts" setup>
-
+const { data: status } = await useFetch('/api/status');
 </script>
 
 <template>
-  <div>
-    <p>Status page goes here</p>
-  </div>
+  <Container>
+    <ServiceGroup>
+      <Service
+        v-for="svc of (status?.services ?? [])"
+        :key="svc.id"
+        :service="svc"
+      />
+    </ServiceGroup>
+  </Container>
 </template>

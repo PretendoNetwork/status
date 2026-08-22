@@ -1,0 +1,17 @@
+:root {
+    --bg-shade-1: #12131d;
+    --bg-shade-2: #1c1d2b;
+    --bg-shade-3: #222333;
+    --text-shade-1: #adb0c7;
+    --brand: #9d6ff3;
+}
+
+body, html {
+    background-color: var(--bg-shade-1);
+    color: var(--text-shade-1);
+    font-family: "Poppins", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p, h1, h2 {
+    margin: 0;
+}

@@ -11,6 +11,8 @@ export default defineNuxtConfig({
 		'@nuxt/icon'
 	],
 
+	css: ['~/assets/main.css'],
+
 	eslint: {
 		config: {
 			standalone: false
