@@ -41,3 +41,23 @@ model CheckResult {
 
   @@map("check_results")
 }
+
+enum BucketResolution {
+  Hour
+  Day
+}
+
+model CheckResultBucket {
+  id        BigInt @id @default(autoincrement())
+  checkId   String @map("check_id")
+  serviceId String @map("service_id")
+
+  timestamp  DateTime
+  resolution BucketResolution
+
+  totalChecks   Int @map("total_checks")
+  successChecks Int @map("successful_checks")
+
+  @@unique([checkId, resolution, timestamp])
+  @@map("check_result_buckets")
+}
