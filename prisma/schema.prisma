@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model IncidentContent {
+  id        String   @id
+  createdAt DateTime @default(now()) @map("created_at")
+
+  title String
+  body  String
+
+  incidents Incident[]
+
+  @@map("incident_contents")
+}
+
+model Incident {
+  id         String    @id
+  startedAt  DateTime  @default(now()) @map("started_at")
+  resolvedAt DateTime? @map("resolved_at")
+
+  contentId String
+  content   IncidentContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@map("incidents")
+}
+
+model Disruption {
+  id        String @id
+  serviceId String
+
+  disruptionAt DateTime @map("disruption_at")
+
+  @@map("disruption")
+}

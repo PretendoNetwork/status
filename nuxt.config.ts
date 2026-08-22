@@ -22,8 +22,10 @@ export default defineNuxtConfig({
 			envPrefix: 'PN_STATUS_'
 		},
 
+		databaseUrl: '',
+
 		public: {
-			homePageUrl: 'https://pretendo.network'
+			homepageUrl: 'https://pretendo.network'
 		}
 	},
 

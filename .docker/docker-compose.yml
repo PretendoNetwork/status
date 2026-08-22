@@ -1,0 +1,17 @@
+name: "pn-status-dev"
+
+services:
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "postgres"
+    volumes:
+      - "db_data:/var/lib/postgresql"
+
+volumes:
+  db_data:
