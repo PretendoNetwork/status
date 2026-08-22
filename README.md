@@ -1,6 +1,6 @@
 # Pretendo status page
 
-This repository contains the source code for [our status page](https://status.pretendo.network).
+This repository contains the source code for the work-in-progress status page for Pretendo.
 
 # Running locally for development
 
@@ -35,7 +35,7 @@ To have the application check anything you need to configure checks and services
 Frontend:
 - [x] View status
 - [ ] View incidents
-- [ ] Realtime updates (with tanstack query)
+- [x] Realtime updates (with tanstack query)
 - [ ] Historic uptime view
 
 Backend:
