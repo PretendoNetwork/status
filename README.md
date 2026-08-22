@@ -10,15 +10,22 @@ Prerequisites:
 - Have NodeJS 24 or higher installed
 
 Then follow these steps:
+- Run `docker compose up -d` inside `/.docker`
+- Create a file called `.env` in the root, fill it with the contents of `example.env`
 - Install dependencies with `npm i`
+- Run latest migrations with `npm run migration:deploy`
 - Run the app with `npm run dev`
+
+If you need to make database changes, you can use `npm run migration:create` followed by a `npm run migration:deploy`.
 
 # Configuration
 
 The application can be configured with environment variables. `.env` files are available for development.
 
-Todos:
-- [ ] Add status tracking
-- [ ] Document configuration
-- [ ] API for retrieving status
-- [ ] API for CRUD incidents
+To have the application check anything you need to configure checks and services. They have to be configured with a `checks.json` (see `example.checks.json` for an example).
+
+| Variable                        | Description                             | Default                    |
+| ------------------------------- | --------------------------------------- | -------------------------- |
+| `PN_STATUS_PUBLIC_HOMEPAGE_URL` | Homepage of the main website            | `https://pretendo.network` |
+| `PN_STATUS_DATABASE_URL`        | Postgres connection URL of the database | -                          |
+| `PN_STATUS_CHECK_CONFIG_FILE`   | Location of the `checks.json` file      | -                          |

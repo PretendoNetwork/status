@@ -12,7 +12,7 @@
 			"schedule": "*/15 * * * * *",
 			"options": {
 				"type": "http",
-				"url": "https://pretendo.network"
+				"url": "https://example.com"
 			}
 		}
 	]

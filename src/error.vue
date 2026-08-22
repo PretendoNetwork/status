@@ -7,5 +7,5 @@ watch([error], () => {
 </script>
 
 <template>
-  =<p>ERROR: {{ error }}</p>
+  <p>ERROR: {{ error }}</p>
 </template>

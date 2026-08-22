@@ -6,10 +6,13 @@
 	"type": "module",
 	"scripts": {
 		"start": "node --env-file=.env --enable-source-maps .output/server/index.mjs",
-		"build": "nuxt build",
-		"prepare": "nuxt prepare",
-		"dev": "nuxt dev",
-		"typecheck": "nuxt typecheck",
+		"build": "prisma generate && nuxt build",
+		"prepare": "prisma generate && nuxt prepare",
+		"dev": "prisma generate && nuxt dev",
+		"migration:create": "prisma migrate dev --create-only && prisma generate",
+		"migration:deploy": "prisma migrate deploy",
+		"migration:reset": "prisma migrate reset",
+		"typecheck": "prisma generate && nuxt typecheck",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix"
 	},

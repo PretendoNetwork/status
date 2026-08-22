@@ -5,7 +5,7 @@ type LatestCheckResult = {
 	id: string;
 	check_id: string;
 	service_id: string;
-	executed_at: string;
+	checked_at: string;
 	success: boolean;
 };
 
@@ -17,10 +17,10 @@ export default defineEventHandler(async (event): Promise<StatusResponse> => {
 			"id",
 			"check_id",
 			"service_id",
-			"executed_at",
+			"checked_at",
 			"success"
 		FROM "check_results"
-		ORDER BY "check_id", "executed_at" DESC
+		ORDER BY "check_id", "checked_at" DESC
 	`;
 
 	const services = getServices();

@@ -9,8 +9,19 @@ export const HttpCheckSchema = z.object({
 export type HttpCheck = CheckCommon<typeof HttpCheckSchema>;
 
 export async function executeHttpCheck(check: HttpCheck): Promise<CheckResult> {
-	console.log('Doing HTTP check', check); // TODO do real check
-	return {
-		ok: true
-	};
+	try {
+		const response = await fetch(check.options.url, {
+			method: 'GET',
+			headers: {
+				'User-Agent': 'PretendoStatus/1.0'
+			}
+		});
+		return {
+			ok: response.status >= 200 && response.status < 400
+		};
+	} catch {
+		return {
+			ok: false
+		};
+	}
 }

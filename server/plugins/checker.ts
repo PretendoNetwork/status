@@ -3,6 +3,8 @@ import { readFile } from 'fs/promises';
 import { z } from 'zod';
 import { consola } from 'consola';
 import { CheckSchema, createAndStartChecker } from '../checker/setup';
+import { usePrismaFromConfig } from '../utils/prisma';
+import type { PrismaClient } from '../prisma/generated/client';
 
 let checkerClose: null | (() => void) = null;
 let services: z.infer<typeof ServiceSchema>[] = [];
@@ -12,7 +14,7 @@ export const ServiceSchema = z.object({
 	name: z.string()
 });
 
-async function startChecker(configFile: string) {
+async function startChecker(prisma: PrismaClient, configFile: string) {
 	consola.info('Starting checker');
 	try {
 		const resolvedPath = resolve(configFile);
@@ -25,7 +27,7 @@ async function startChecker(configFile: string) {
 		const config = schema.parse(JSON.parse(fileContents));
 		services = config.services;
 
-		const checker = await createAndStartChecker(config.checks);
+		const checker = await createAndStartChecker(prisma, config.checks);
 		consola.success('Checker started');
 		checkerClose = () => {
 			checker.close();
@@ -42,7 +44,8 @@ export function getServices() {
 
 export default defineNitroPlugin((nitroApp) => {
 	const config = useRuntimeConfig();
-	startChecker(config.checkConfigFile);
+	const prisma = usePrismaFromConfig(config);
+	startChecker(prisma, config.checkConfigFile);
 	nitroApp.hooks.hook('close', () => {
 		checkerClose?.();
 	});
