@@ -2,6 +2,7 @@ export type StatusService = {
 	id: string;
 	name: string;
 	healthy: boolean;
+	lastHealthyAt: string;
 };
 
 export type StatusResponse = {

@@ -7,7 +7,9 @@ import { usePrismaFromConfig } from '../utils/prisma';
 import type { PrismaClient } from '../prisma/generated/client';
 
 let checkerClose: null | (() => void) = null;
-let services: z.infer<typeof ServiceSchema>[] = [];
+let services: Array<z.infer<typeof ServiceSchema> & {
+	checkIds: string[];
+}> = [];
 
 export const ServiceSchema = z.object({
 	id: z.string(),
@@ -25,7 +27,10 @@ async function startChecker(prisma: PrismaClient, configFile: string) {
 			checks: z.array(CheckSchema)
 		});
 		const config = schema.parse(JSON.parse(fileContents));
-		services = config.services;
+		services = config.services.map(v => ({
+			...v,
+			checkIds: config.checks.filter(c => c.serviceId === c.serviceId).map(v => v.id)
+		}));
 
 		const checker = await createAndStartChecker(prisma, config.checks);
 		consola.success('Checker started');

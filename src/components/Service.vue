@@ -4,6 +4,7 @@ import type { StatusService } from '~~/shared/types';
 const props = defineProps<{
 	service: StatusService;
 }>();
+const lastHealthyAt = computed(() => new Date(props.service.lastHealthyAt));
 </script>
 
 <template>
@@ -11,6 +12,12 @@ const props = defineProps<{
     <div>
       <p class="item-name">
         {{ props.service.name }}
+      </p>
+      <p
+        v-if="!props.service.healthy"
+        class="item-desc"
+      >
+        Outage since {{ lastHealthyAt.toLocaleString() }}
       </p>
     </div>
     <div>
@@ -29,5 +36,11 @@ const props = defineProps<{
 
 .item-name {
 	color: var(--text-shade-1);
+}
+
+.item-desc {
+	font-size: 0.7em;
+	margin-top: 0.2rem;
+	color: var(--text-shade-3);
 }
 </style>
