@@ -1,5 +1,6 @@
 import dgram from 'node:dgram';
 import crypto from 'node:crypto';
+import { consola } from 'consola';
 import { z } from 'zod';
 import type { CheckCommon, CheckResult } from './setup';
 
@@ -49,7 +50,8 @@ export async function executeUdpEchoCheck(check: UdpEchoCheck): Promise<CheckRes
 		return {
 			ok: true
 		};
-	} catch {
+	} catch (err) {
+		consola.error(`UDP echo check '${check.options.ip}:${check.options.port}' failed:`, err);
 		return {
 			ok: false
 		};
