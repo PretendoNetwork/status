@@ -29,3 +29,19 @@ To have the application check anything you need to configure checks and services
 | `PN_STATUS_PUBLIC_HOMEPAGE_URL` | Homepage of the main website            | `https://pretendo.network` |
 | `PN_STATUS_DATABASE_URL`        | Postgres connection URL of the database | -                          |
 | `PN_STATUS_CHECK_CONFIG_FILE`   | Location of the `checks.json` file      | -                          |
+
+# Todos
+
+Frontend:
+- [x] View status
+- [ ] View incidents
+- [ ] Realtime updates (with tanstack query)
+- [ ] Historic uptime view
+
+Backend:
+- [x] HTTP checks
+- [x] UDP echo checks
+- [ ] Incident CRUD endpoints
+- [ ] Caching
+- [ ] Clear old data
+- [ ] Historic uptime data
