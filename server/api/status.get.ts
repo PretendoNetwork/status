@@ -1,7 +1,21 @@
 import { getServices } from '../plugins/checker';
 import { Prisma } from '../prisma/generated/client';
 import { defineLocalCacheEventHandler } from '../utils/cache';
+import { getTimelineForRange } from '../utils/timeline';
 import type { StatusResponse } from '#shared/types';
+import type { ServiceTimeline } from '../utils/timeline';
+import type { PrismaClient } from '../prisma/generated/client';
+
+async function getLast30daysForServices(prisma: PrismaClient): Promise<ServiceTimeline> {
+	const endDay = new Date();
+	endDay.setUTCHours(0, 0, 0, 0);
+	endDay.setUTCDate(endDay.getUTCDate() + 1);
+
+	const startDay = new Date(endDay);
+	startDay.setUTCDate(startDay.getUTCDate() - 30);
+
+	return getTimelineForRange(prisma, startDay, endDay);
+}
 
 type LatestCheckResult = {
 	id: string;
@@ -14,6 +28,7 @@ type LatestCheckResult = {
 export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, async (event) => {
 	const prisma = usePrisma(event);
 	const services = getServices();
+	const serviceTimeline = await getLast30daysForServices(prisma);
 
 	const latestCheckResults = await prisma.$queryRaw<LatestCheckResult[]>`
 		SELECT DISTINCT ON ("check_id")
@@ -57,7 +72,8 @@ export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, a
 				id: v.id,
 				name: v.name,
 				lastHealthyAt: new Date(lastKnownHealthyTime).toISOString(),
-				healthy: isHealthy
+				healthy: isHealthy,
+				timeline: serviceTimeline[v.id] ?? {}
 			};
 		})
 	};
