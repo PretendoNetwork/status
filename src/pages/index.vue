@@ -8,15 +8,8 @@ const { data: status, isFetching, suspense } = useQuery({
 	refetchInterval: 15 * 1000
 });
 
-const { data: incidents, suspense: suspenseIncidents } = useQuery({
-	queryKey: ['incidents'],
-	queryFn: () => $fetch('/api/incidents'),
-	refetchInterval: 60 * 1000
-});
-
 onServerPrefetch(async () => {
 	await suspense();
-	await suspenseIncidents();
 });
 
 const globalStatus = computed(() => !(status.value?.services ?? []).some(v => !v.healthy));
@@ -40,7 +33,7 @@ const globalStatus = computed(() => !(status.value?.services ?? []).some(v => !v
     <Container>
       <IncidentList>
         <Incident
-          v-for="incident of (incidents?.data ?? [])"
+          v-for="incident of (status?.incidents ?? [])"
           :key="incident.id"
           :incident="incident"
         />

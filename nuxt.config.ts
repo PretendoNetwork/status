@@ -26,6 +26,7 @@ export default defineNuxtConfig({
 
 		databaseUrl: '',
 		checkConfigFile: '',
+		apiKey: '',
 
 		public: {
 			homepageUrl: 'https://pretendo.network'

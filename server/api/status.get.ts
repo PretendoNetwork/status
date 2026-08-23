@@ -2,7 +2,8 @@ import { getServices } from '../plugins/checker';
 import { Prisma } from '../prisma/generated/client';
 import { defineLocalCacheEventHandler } from '../utils/cache';
 import { getTimelineForRange } from '../utils/timeline';
-import type { StatusResponse } from '#shared/types';
+import { mapIncident } from './admin/incidents.get';
+import type { Incident, StatusResponse } from '#shared/types';
 import type { ServiceTimeline } from '../utils/timeline';
 import type { PrismaClient } from '../prisma/generated/client';
 
@@ -17,18 +18,21 @@ async function getLast30daysForServices(prisma: PrismaClient): Promise<ServiceTi
 	return getTimelineForRange(prisma, startDay, endDay);
 }
 
-type LatestCheckResult = {
-	id: string;
-	check_id: string;
-	service_id: string;
-	checked_at: string;
-	success: boolean;
-};
+async function getActiveIncidents(prisma: PrismaClient): Promise<Incident[]> {
+	const activeIncidents = await prisma.incident.findMany({
+		where: {
+			resolvedAt: null
+		},
+		include: {
+			posts: true
+		}
+	});
 
-export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, async (event) => {
-	const prisma = usePrisma(event);
+	return activeIncidents.map(mapIncident);
+}
+
+async function getServiceHealth(prisma: PrismaClient) {
 	const services = getServices();
-	const serviceTimeline = await getLast30daysForServices(prisma);
 
 	const latestCheckResults = await prisma.$queryRaw<LatestCheckResult[]>`
 		SELECT DISTINCT ON ("check_id")
@@ -54,27 +58,56 @@ export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, a
 		ORDER BY "check_id", "checked_at" DESC
 	`;
 
+	const out: Record<string, { healthy: boolean; lastHealthyAt: Date }> = {};
+
+	services.forEach((svc) => {
+		const checks = latestCheckResults.filter(c => c.service_id === svc.id);
+		const isHealthy = checks.every(v => v.success);
+		const newestHealthyCheckDates = checks
+			.map(v => latestSuccessCheckResults.find(c => c.check_id === v.check_id))
+			.filter((v): v is LatestCheckResult => !!v)
+			.map(v => new Date(v.checked_at).getTime());
+
+		// From the newest success checks, get the furthest back healthy time
+		// This is prevent the case where one of the checks always succeeds, but the other one died ages ago.
+		// The oldest healthy state *should* corrospond to the actual downtime start
+		const lastKnownHealthyTime = Math.min(...newestHealthyCheckDates);
+
+		out[svc.id] = {
+			healthy: isHealthy,
+			lastHealthyAt: new Date(lastKnownHealthyTime)
+		};
+	});
+
+	return out;
+}
+
+type LatestCheckResult = {
+	id: string;
+	check_id: string;
+	service_id: string;
+	checked_at: string;
+	success: boolean;
+};
+
+export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, async (event) => {
+	const prisma = usePrisma(event);
+	const services = getServices();
+	const serviceTimeline = await getLast30daysForServices(prisma);
+	const serviceHealthMap = await getServiceHealth(prisma);
+	const incidents = await getActiveIncidents(prisma);
+
 	return {
 		services: services.map((v) => {
-			const checks = latestCheckResults.filter(c => c.service_id === v.id);
-			const isHealthy = checks.every(v => v.success);
-			const newestHealthyCheckDates = checks
-				.map(v => latestSuccessCheckResults.find(c => c.check_id === v.check_id))
-				.filter((v): v is LatestCheckResult => !!v)
-				.map(v => new Date(v.checked_at).getTime());
-
-			// From the newest success checks, get the furthest back healthy time
-			// This is prevent the case where one of the checks always succeeds, but the other one died ages ago.
-			// The oldest healthy state *should* corrospond to the actual downtime start
-			const lastKnownHealthyTime = Math.min(...newestHealthyCheckDates);
-
+			const svcHealth = serviceHealthMap[v.id] ?? { healthy: false, lastHealthyAt: new Date(0) };
 			return {
 				id: v.id,
 				name: v.name,
-				lastHealthyAt: new Date(lastKnownHealthyTime).toISOString(),
-				healthy: isHealthy,
+				lastHealthyAt: svcHealth.lastHealthyAt.toISOString(),
+				healthy: svcHealth.healthy,
 				timeline: serviceTimeline[v.id] ?? {}
 			};
-		})
+		}),
+		incidents
 	};
 });

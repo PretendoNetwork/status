@@ -29,6 +29,7 @@ To have the application check anything you need to configure checks and services
 | `PN_STATUS_PUBLIC_HOMEPAGE_URL` | Homepage of the main website            | `https://pretendo.network` |
 | `PN_STATUS_DATABASE_URL`        | Postgres connection URL of the database | -                          |
 | `PN_STATUS_CHECK_CONFIG_FILE`   | Location of the `checks.json` file      | -                          |
+| `PN_STATUS_API_KEY`             | API key for the admin API               | -                          |
 
 # Todos
 

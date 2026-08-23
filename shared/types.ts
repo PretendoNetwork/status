@@ -10,6 +10,7 @@ export type StatusService = {
 
 export type StatusResponse = {
 	services: StatusService[];
+	incidents: Incident[];
 };
 
 export type IncidentPost = {
