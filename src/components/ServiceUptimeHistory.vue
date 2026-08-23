@@ -30,12 +30,14 @@ const last30Days = computed(() => {
 });
 
 function getDayInfo(day: string) {
-	const data = props.timeline[day] ?? [0, 0];
+	let data = props.timeline[day] ?? [0, 0];
 
 	// If today, add the current check results to it so it doesnt have the chance to appear gray
 	if (day === today.value) {
-		data[0] += 1;
-		data[0] += props.isCurrentlyHealthy ? 1 : 0;
+		const copy: [number, number] = [...data];
+		copy[0] += 1;
+		copy[1] += props.isCurrentlyHealthy ? 1 : 0;
+		data = copy;
 	}
 
 	const uptime = data[0] === 0 ? 100 : Math.round(data[1] / data[0] * 100_00) / 100;
