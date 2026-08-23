@@ -8,7 +8,9 @@ import type { PrismaClient } from '../prisma/generated/client';
 function startRollupJobs(prisma: PrismaClient) {
 	consola.info('Created hourly rollup');
 	const hourlyJob = new Cron('12,42 * * * *', async () => {
+		consola.info('Started hourly rollup');
 		await rollupHourly(prisma);
+		consola.success('Finished hourly rollup');
 	}, {
 		protect: true,
 		catch: (error) => {
@@ -18,7 +20,9 @@ function startRollupJobs(prisma: PrismaClient) {
 
 	consola.info('Created daily rollup');
 	const dailyJob = new Cron('50 0,12 * * *', async () => {
+		consola.info('Started daily rollup');
 		await rollupDaily(prisma);
+		consola.success('Finished daily rollup');
 	}, {
 		protect: true,
 		catch: (error) => {

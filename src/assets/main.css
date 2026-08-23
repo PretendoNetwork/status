@@ -2,9 +2,13 @@
     --bg-shade-1: #12131d;
     --bg-shade-2: #1c1d2b;
     --bg-shade-3: #222333;
+    --bg-shade-4: #2f3042;
     --text-shade-1: #e0dcdc;
     --text-shade-2: #adb0c7;
     --text-shade-3: #8a8ca1;
+    --operational-1: #6ea73a;
+    --degraded-1: #c57c37;
+    --outage-1: #c53737;
     --brand: #9d6ff3;
 }
 

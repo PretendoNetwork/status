@@ -36,7 +36,10 @@ Frontend:
 - [x] View status
 - [ ] View incidents
 - [x] Realtime updates (with tanstack query)
-- [ ] Historic uptime view
+- [x] Historic uptime view
+- [ ] Improve navbar
+- [ ] Improve loading spinner
+- [ ] Implement error page + 404 page
 
 Backend:
 - [x] HTTP checks
@@ -44,4 +47,4 @@ Backend:
 - [ ] Incident CRUD endpoints
 - [x] Caching
 - [ ] Clear old data
-- [ ] Historic uptime data
+- [x] Historic uptime data

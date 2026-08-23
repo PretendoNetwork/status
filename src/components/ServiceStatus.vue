@@ -55,11 +55,11 @@ const props = defineProps<{
 }
 
 .status-circle.healthy {
-	background-color: #6ea73a;
+	background-color: var(--operational-1);
 }
 
 .status-circle.unhealthy {
-	background-color: #c53737;
+	background-color: var(--outage-1);
 }
 
 .status-text {
@@ -68,10 +68,10 @@ const props = defineProps<{
 }
 
 .status-text.healthy {
-	color: #6ea73a;
+	color: var(--operational-1);
 }
 
 .status-text.unhealthy {
-	color: #c53737;
+	color: var(--outage-1);
 }
 </style>

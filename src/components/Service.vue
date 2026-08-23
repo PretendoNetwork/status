@@ -9,29 +9,43 @@ const lastHealthyAt = computed(() => new Date(props.service.lastHealthyAt));
 
 <template>
   <div class="item">
-    <div>
-      <p class="item-name">
-        {{ props.service.name }}
-      </p>
-      <p
-        v-if="!props.service.healthy"
-        class="item-desc"
-      >
-        Outage since {{ lastHealthyAt.toLocaleString() }}
-      </p>
+    <div class="item-header">
+      <div>
+        <p class="item-name">
+          {{ props.service.name }}
+        </p>
+        <p
+          v-if="!props.service.healthy"
+          class="item-desc"
+        >
+          Outage since {{ lastHealthyAt.toLocaleString() }}
+        </p>
+      </div>
+      <div>
+        <ServiceStatus :healthy="props.service.healthy" />
+      </div>
     </div>
-    <div>
-      <ServiceStatus :healthy="props.service.healthy" />
-    </div>
+
+    <ServiceUptimeHistory
+      class="history"
+      :timeline="props.service.timeline"
+    />
   </div>
 </template>
 
 <style lang="css" scoped>
 .item {
+	padding: 1rem;
+}
+
+.history {
+	margin-top: 1rem;
+}
+
+.item-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1rem;
 }
 
 .item-name {

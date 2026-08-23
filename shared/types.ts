@@ -1,9 +1,11 @@
+export type StatusServiceTimeline = Record<string, [total: number, success: number]>;
+
 export type StatusService = {
 	id: string;
 	name: string;
 	healthy: boolean;
 	lastHealthyAt: string;
-	timeline: Record<string, [total: number, success: number]>;
+	timeline: StatusServiceTimeline;
 };
 
 export type StatusResponse = {
