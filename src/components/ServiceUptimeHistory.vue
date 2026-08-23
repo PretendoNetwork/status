@@ -1,11 +1,18 @@
 <script setup lang="ts">
+import { useNow } from '@vueuse/core';
 import type { StatusServiceTimeline } from '~~/shared/types';
 
 const props = defineProps<{
+	isCurrentlyHealthy?: boolean;
 	timeline: StatusServiceTimeline;
 }>();
 
-const now = computed(() => new Date()); // TODO refresh
+const now = useNow();
+const today = computed(() => {
+	const day = new Date(now.value);
+	day.setUTCHours(0, 0, 0, 0);
+	return day.toISOString();
+});
 const last30Days = computed(() => {
 	const end = new Date(now.value);
 	end.setUTCHours(0, 0, 0, 0);
@@ -24,6 +31,13 @@ const last30Days = computed(() => {
 
 function getDayInfo(day: string) {
 	const data = props.timeline[day] ?? [0, 0];
+
+	// If today, add the current check results to it so it doesnt have the chance to appear gray
+	if (day === today.value) {
+		data[0] += 1;
+		data[0] += props.isCurrentlyHealthy ? 1 : 0;
+	}
+
 	const uptime = data[0] === 0 ? 100 : Math.round(data[1] / data[0] * 100_00) / 100;
 	return {
 		day,

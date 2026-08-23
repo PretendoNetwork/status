@@ -28,6 +28,7 @@ const lastHealthyAt = computed(() => new Date(props.service.lastHealthyAt));
 
     <ServiceUptimeHistory
       class="history"
+      :is-currently-healthy="props.service.healthy"
       :timeline="props.service.timeline"
     />
   </div>
