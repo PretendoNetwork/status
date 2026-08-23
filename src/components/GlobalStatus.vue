@@ -1,31 +1,41 @@
 <script setup lang="ts">
+import { useRafFn, useTimeAgo } from '@vueuse/core';
 import ServiceStatus from './ServiceStatus.vue';
 
 const props = defineProps<{
 	healthy: boolean;
+	updating?: boolean;
+	lastUpdated?: Date;
 }>();
+
+const updatedDate = computed(() => new Date(Math.min(props.lastUpdated?.getTime() ?? Date.now(), Date.now())));
+const updatedAgo = useTimeAgo(updatedDate, {
+	showSecond: true,
+	scheduler: useRafFn
+});
 </script>
 
 <template>
   <div
-    v-if="props.healthy"
     class="status-hero"
   >
     <ServiceStatus
-      healthy
+      :healthy="props.healthy"
       text
     />
-    <h1>All systems operational</h1>
-  </div>
-  <div
-    v-else
-    class="status-hero"
-  >
-    <ServiceStatus
-      :healthy="false"
-      text
-    />
-    <h1>Major outage</h1>
+    <h1 v-if="props.healthy">
+      All systems operational
+    </h1>
+    <h1 v-else>
+      Major outage
+    </h1>
+    <p
+      v-if="props.lastUpdated"
+      class="updated-text"
+    >
+      <span v-if="props.updating"><Loader /></span>
+      <span v-else>Last updated {{ updatedAgo }}</span>
+    </p>
   </div>
 </template>
 
@@ -42,6 +52,12 @@ const props = defineProps<{
 	color: var(--text-shade-1);
 	margin: 0.5rem 0 0 0;
 	font-size: 2rem;
+}
+
+.updated-text {
+	margin: 0.7rem 0 0 0;
+	font-size: 0.9rem;
+	color: var(--text-shade-3);
 }
 
 @media screen and (max-width: 600px) {

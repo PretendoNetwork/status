@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/vue-query';
 import GlobalStatus from '~/components/GlobalStatus.vue';
 
-const { data: status, isFetching, suspense } = useQuery({
+const { data: status, isFetching, dataUpdatedAt, suspense } = useQuery({
 	queryKey: ['status'],
 	queryFn: () => $fetch('/api/status'),
 	refetchInterval: 15 * 1000
@@ -18,10 +18,11 @@ const globalStatus = computed(() => !(status.value?.services ?? []).some(v => !v
 <template>
   <div>
     <Container>
-      <GlobalStatus :healthy="globalStatus" />
-      <p v-if="isFetching">
-        Fetching...
-      </p>
+      <GlobalStatus
+        :healthy="globalStatus"
+        :updating="isFetching"
+        :last-updated="new Date(dataUpdatedAt)"
+      />
       <ServiceGroup>
         <Service
           v-for="svc of (status?.services ?? [])"

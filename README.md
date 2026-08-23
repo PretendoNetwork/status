@@ -40,7 +40,7 @@ Frontend:
 - [x] Realtime updates (with tanstack query)
 - [x] Historic uptime view
 - [x] Improve navbar
-- [ ] Improve loading spinner
+- [x] Improve loading spinner
 - [x] Implement error page + 404 page
 
 Backend:
