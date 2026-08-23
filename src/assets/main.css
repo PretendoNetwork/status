@@ -1,8 +1,10 @@
 :root {
+    --bg-shade-0: #0c0d14;
     --bg-shade-1: #12131d;
     --bg-shade-2: #1c1d2b;
     --bg-shade-3: #222333;
     --bg-shade-4: #2f3042;
+    --bg-shade-5: #48495f;
     --text-shade-1: #e0dcdc;
     --text-shade-2: #adb0c7;
     --text-shade-3: #8a8ca1;

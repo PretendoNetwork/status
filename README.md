@@ -36,7 +36,7 @@ To have the application check anything you need to configure checks and services
 
 Frontend:
 - [x] View status
-- [ ] View incidents
+- [x] View incidents
 - [x] Realtime updates (with tanstack query)
 - [x] Historic uptime view
 - [x] Improve navbar

@@ -23,15 +23,6 @@ const globalStatus = computed(() => !(status.value?.services ?? []).some(v => !v
         :updating="isFetching"
         :last-updated="new Date(dataUpdatedAt)"
       />
-      <ServiceGroup>
-        <Service
-          v-for="svc of (status?.services ?? [])"
-          :key="svc.id"
-          :service="svc"
-        />
-      </ServiceGroup>
-    </Container>
-    <Container>
       <IncidentList>
         <Incident
           v-for="incident of (status?.incidents ?? [])"
@@ -39,6 +30,13 @@ const globalStatus = computed(() => !(status.value?.services ?? []).some(v => !v
           :incident="incident"
         />
       </IncidentList>
+      <ServiceGroup>
+        <Service
+          v-for="svc of (status?.services ?? [])"
+          :key="svc.id"
+          :service="svc"
+        />
+      </ServiceGroup>
     </Container>
   </div>
 </template>
