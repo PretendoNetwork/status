@@ -31,22 +31,3 @@ To have the application check anything you need to configure checks and services
 | `PN_STATUS_DATABASE_URL`        | Postgres connection URL of the database | -                                |
 | `PN_STATUS_CHECK_CONFIG_FILE`   | Location of the `checks.json` file      | -                                |
 | `PN_STATUS_API_KEY`             | API key for the admin API               | -                                |
-
-# Todos
-
-Frontend:
-- [x] View status
-- [x] View incidents
-- [x] Realtime updates (with tanstack query)
-- [x] Historic uptime view
-- [x] Improve navbar
-- [x] Improve loading spinner
-- [x] Implement error page + 404 page
-
-Backend:
-- [x] HTTP checks
-- [x] UDP echo checks
-- [x] Incident CRUD endpoints
-- [x] Caching
-- [x] Clear old data
-- [x] Historic uptime data
