@@ -48,5 +48,5 @@ Backend:
 - [x] UDP echo checks
 - [x] Incident CRUD endpoints
 - [x] Caching
-- [ ] Clear old data
+- [x] Clear old data
 - [x] Historic uptime data
