@@ -58,4 +58,10 @@ const lastHealthyAt = computed(() => new Date(props.service.lastHealthyAt));
 	margin-top: 0.2rem;
 	color: var(--text-shade-3);
 }
+
+@media screen and (max-width: 400px) {
+	.history {
+		display: none;
+	}
+}
 </style>

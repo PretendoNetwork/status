@@ -114,4 +114,12 @@ const props = defineProps<{
 .post-content {
 	font-size: 0.9rem;
 }
+
+@media screen and (max-width: 500px) {
+	.post-date {
+		position: relative;
+		right: auto;
+		top: auto;
+	}
+}
 </style>
