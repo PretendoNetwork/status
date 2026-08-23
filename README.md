@@ -41,7 +41,7 @@ Frontend:
 - [x] Historic uptime view
 - [x] Improve navbar
 - [ ] Improve loading spinner
-- [ ] Implement error page + 404 page
+- [x] Implement error page + 404 page
 
 Backend:
 - [x] HTTP checks
