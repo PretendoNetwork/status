@@ -27,6 +27,7 @@
 		"croner": "^10.0.1",
 		"dotenv": "^17.4.2",
 		"eslint": "^9.39.5",
+		"nanoid": "^6.0.1",
 		"node-cache": "^5.1.2",
 		"nuxt": "^4.5.2",
 		"pg": "^8.23.0",
@@ -47,11 +48,11 @@
 		"vue-tsc": "^3.3.10"
 	},
 	"allowScripts": {
-		"esbuild@0.27.7": true,
 		"esbuild@0.28.2": true,
 		"unrs-resolver@1.12.2": true,
 		"vue-demi@0.14.10": true,
 		"@prisma/engines@7.9.1": true,
-		"prisma@7.9.1": true
+		"prisma@7.9.1": true,
+		"esbuild@0.27.2": true
 	}
 }

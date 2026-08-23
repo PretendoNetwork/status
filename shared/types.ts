@@ -30,3 +30,7 @@ export type Incident = {
 export type IncidentList = {
 	data: Incident[];
 };
+
+export type DeleteResult = {
+	id: string;
+};
