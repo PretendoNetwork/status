@@ -29,7 +29,8 @@ export default defineNuxtConfig({
 		apiKey: '',
 
 		public: {
-			homepageUrl: 'https://pretendo.network'
+			homepageUrl: 'https://pretendo.network',
+			supportUrl: 'https://forum.pretendo.network'
 		}
 	},
 

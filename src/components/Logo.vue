@@ -3,7 +3,7 @@
     role="img"
     aria-label="Pretendo"
     xmlns="http://www.w3.org/2000/svg"
-    width="120"
+    width="40"
     height="39.876"
   >
     <g

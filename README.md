@@ -24,12 +24,13 @@ The application can be configured with environment variables. `.env` files are a
 
 To have the application check anything you need to configure checks and services. They have to be configured with a `checks.json` (see `example.checks.json` for an example).
 
-| Variable                        | Description                             | Default                    |
-| ------------------------------- | --------------------------------------- | -------------------------- |
-| `PN_STATUS_PUBLIC_HOMEPAGE_URL` | Homepage of the main website            | `https://pretendo.network` |
-| `PN_STATUS_DATABASE_URL`        | Postgres connection URL of the database | -                          |
-| `PN_STATUS_CHECK_CONFIG_FILE`   | Location of the `checks.json` file      | -                          |
-| `PN_STATUS_API_KEY`             | API key for the admin API               | -                          |
+| Variable                        | Description                             | Default                          |
+| ------------------------------- | --------------------------------------- | -------------------------------- |
+| `PN_STATUS_PUBLIC_HOMEPAGE_URL` | Homepage of the main website            | `https://pretendo.network`       |
+| `PN_STATUS_PUBLIC_SUPPORT_URL`  | Contact support URL                     | `https://forum.pretendo.network` |
+| `PN_STATUS_DATABASE_URL`        | Postgres connection URL of the database | -                                |
+| `PN_STATUS_CHECK_CONFIG_FILE`   | Location of the `checks.json` file      | -                                |
+| `PN_STATUS_API_KEY`             | API key for the admin API               | -                                |
 
 # Todos
 
@@ -38,14 +39,14 @@ Frontend:
 - [ ] View incidents
 - [x] Realtime updates (with tanstack query)
 - [x] Historic uptime view
-- [ ] Improve navbar
+- [x] Improve navbar
 - [ ] Improve loading spinner
 - [ ] Implement error page + 404 page
 
 Backend:
 - [x] HTTP checks
 - [x] UDP echo checks
-- [ ] Incident CRUD endpoints
+- [x] Incident CRUD endpoints
 - [x] Caching
 - [ ] Clear old data
 - [x] Historic uptime data

@@ -41,5 +41,12 @@ const props = defineProps<{
 .status-hero h1 {
 	color: var(--text-shade-1);
 	margin: 0.5rem 0 0 0;
+	font-size: 2rem;
+}
+
+@media screen and (max-width: 600px) {
+	.status-hero h1 {
+		font-size: 1.5rem;
+	}
 }
 </style>
