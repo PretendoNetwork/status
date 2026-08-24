@@ -2,7 +2,6 @@
 
 ARG app_dir="/home/node/app"
 
-
 # * Base Node.js image
 FROM node:24-alpine AS base
 ARG app_dir
@@ -12,14 +11,19 @@ WORKDIR ${app_dir}
 # * Installing production dependencies
 FROM base AS dependencies
 
+COPY prisma.config.ts prisma.config.ts
+COPY server/prisma server/prisma
+
 RUN --mount=type=bind,source=package.json,target=package.json \
 	--mount=type=bind,source=package-lock.json,target=package-lock.json \
 	--mount=type=cache,target=/root/.npm \
 	npm ci --omit=dev
 
-
 # * Installing development dependencies and building the application
 FROM base AS build
+
+COPY prisma.config.ts prisma.config.ts
+COPY server/prisma server/prisma
 
 RUN --mount=type=bind,source=package.json,target=package.json \
 	--mount=type=bind,source=package-lock.json,target=package-lock.json \
