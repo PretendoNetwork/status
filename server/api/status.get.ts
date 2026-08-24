@@ -58,7 +58,7 @@ async function getServiceHealth(prisma: PrismaClient) {
 		ORDER BY "check_id", "checked_at" DESC
 	`;
 
-	const out: Record<string, { healthy: boolean; lastHealthyAt: Date }> = {};
+	const out: Record<string, { healthy: boolean; lastHealthyAt: Date | null }> = {};
 
 	services.forEach((svc) => {
 		const checks = latestCheckResults.filter(c => c.service_id === svc.id);
@@ -75,7 +75,7 @@ async function getServiceHealth(prisma: PrismaClient) {
 
 		out[svc.id] = {
 			healthy: isHealthy,
-			lastHealthyAt: new Date(lastKnownHealthyTime)
+			lastHealthyAt: newestHealthyCheckDates.length > 0 ? new Date(lastKnownHealthyTime) : null
 		};
 	});
 
@@ -99,11 +99,11 @@ export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, a
 
 	return {
 		services: services.map((v) => {
-			const svcHealth = serviceHealthMap[v.id] ?? { healthy: false, lastHealthyAt: new Date(0) };
+			const svcHealth = serviceHealthMap[v.id] ?? { healthy: false, lastHealthyAt: null };
 			return {
 				id: v.id,
 				name: v.name,
-				lastHealthyAt: svcHealth.lastHealthyAt.toISOString(),
+				lastHealthyAt: svcHealth.lastHealthyAt?.toISOString() ?? null,
 				healthy: svcHealth.healthy,
 				timeline: serviceTimeline[v.id] ?? {}
 			};
