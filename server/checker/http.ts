@@ -17,7 +17,7 @@ export async function executeHttpCheck(check: HttpCheck): Promise<CheckResult> {
 				'User-Agent': 'PretendoStatus/1.0'
 			}
 		});
-		const isValidResponse = response.status >= 200 && response.status < 400;
+		const isValidResponse = (response.status >= 200 && response.status < 400) || response.status === 404; // Allow 404, not everything has a healthcheck endpoint
 		if (!isValidResponse) {
 			consola.error(`HTTP check '${check.options.url}' failed with negative response code: ${response.status}`);
 		}
