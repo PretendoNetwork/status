@@ -4,6 +4,7 @@ export type StatusService = {
 	id: string;
 	name: string;
 	healthy: boolean;
+	hideHistory: boolean;
 	lastHealthyAt: string | null;
 	timeline: StatusServiceTimeline;
 };

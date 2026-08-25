@@ -13,7 +13,8 @@ let services: Array<z.infer<typeof ServiceSchema> & {
 
 export const ServiceSchema = z.object({
 	id: z.string(),
-	name: z.string()
+	name: z.string(),
+	hideHistory: z.boolean().default(false)
 });
 
 async function startChecker(prisma: PrismaClient, configFile: string) {

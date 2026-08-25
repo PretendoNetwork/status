@@ -27,6 +27,7 @@ const lastHealthyAt = computed(() => props.service.lastHealthyAt ? new Date(prop
     </div>
 
     <ServiceUptimeHistory
+      v-if="!props.service.hideHistory"
       class="history"
       :is-currently-healthy="props.service.healthy"
       :timeline="props.service.timeline"

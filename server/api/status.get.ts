@@ -105,7 +105,8 @@ export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, a
 				name: v.name,
 				lastHealthyAt: svcHealth.lastHealthyAt?.toISOString() ?? null,
 				healthy: svcHealth.healthy,
-				timeline: serviceTimeline[v.id] ?? {}
+				hideHistory: v.hideHistory,
+				timeline: !v.hideHistory ? serviceTimeline[v.id] ?? {} : {}
 			};
 		}),
 		incidents
