@@ -2,6 +2,13 @@
 import { useQuery } from '@tanstack/vue-query';
 import GlobalStatus from '~/components/GlobalStatus.vue';
 
+useHead({
+	title: 'Pretendo Network Status'
+});
+useSeoMeta({
+	description: 'View the status of Pretendo Network'
+});
+
 const { data: status, isFetching, dataUpdatedAt, suspense } = useQuery({
 	queryKey: ['status'],
 	queryFn: () => $fetch('/api/status'),
