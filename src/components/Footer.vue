@@ -11,7 +11,7 @@ const config = useRuntimeConfig();
           :href="config.public.homepageUrl"
           class="brand"
         >
-          Pretendo network
+          Pretendo Network
         </NuxtLink>
       </div>
       <div class="line" />
