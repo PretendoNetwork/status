@@ -27,7 +27,7 @@ const updatedAgo = useTimeAgo(updatedDate, {
       All systems operational
     </h1>
     <h1 v-else>
-      Major outage
+      Experiencing issues
     </h1>
     <p
       v-if="props.lastUpdated"
