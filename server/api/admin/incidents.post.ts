@@ -9,6 +9,7 @@ export const IncidentTypeSchema = z.enum(['incident', 'maintenance', 'notice']);
 const IncidentCreateSchema = z.object({
 	startedAt: z.iso.datetime().optional(),
 	resolvedAt: z.iso.datetime().nullable().optional(),
+	showAt: z.iso.datetime().optional(),
 	type: IncidentTypeSchema.default('incident'),
 	post: IncidentPostCreateSchema
 });
@@ -32,6 +33,7 @@ export default defineEventHandler(async (event): Promise<Incident> => {
 		data: {
 			id: nanoid(),
 			startedAt: body.startedAt ?? new Date(),
+			showAt: body.showAt ?? new Date(),
 			resolvedAt: body.resolvedAt ?? null,
 			type: mapIncidentTypeToDb(body.type),
 			posts: {

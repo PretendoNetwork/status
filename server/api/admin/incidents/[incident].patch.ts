@@ -5,6 +5,7 @@ import type { Incident } from '#shared/types';
 
 export const IncidentEditSchema = z.object({
 	resolvedAt: z.iso.datetime().nullable().optional(),
+	showAt: z.iso.datetime().optional(),
 	type: IncidentTypeSchema.optional()
 });
 
@@ -20,6 +21,7 @@ export default defineEventHandler(async (event): Promise<Incident> => {
 		},
 		data: {
 			resolvedAt: body.resolvedAt,
+			showAt: body.showAt,
 			type: body.type ? mapIncidentTypeToDb(body.type) : undefined
 		},
 		include: {
