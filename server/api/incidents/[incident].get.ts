@@ -29,10 +29,12 @@ export function mapPublicIncident(v: Prisma.Incident & { posts: Prisma.IncidentP
 
 export default defineEventHandler(async (event): Promise<PublicIncident> => {
 	const prisma = usePrisma(event);
+	const incidentId = getRouterParam(event, 'incident');
 
 	const now = new Date();
 	const incident = await prisma.incident.findFirst({
 		where: {
+			id: incidentId,
 			showAt: {
 				lte: now
 			}
