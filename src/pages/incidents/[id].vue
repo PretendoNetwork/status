@@ -25,7 +25,12 @@ onServerPrefetch(async () => {
   <div>
     <Container>
       <div class="incident">
-        <Loader v-if="!data" />
+        <div
+          v-if="!data"
+          class="loading"
+        >
+          <Loader />
+        </div>
         <Incident
           v-else
           :incident="data"
@@ -36,7 +41,12 @@ onServerPrefetch(async () => {
 </template>
 
 <style lang="css" scoped>
+.loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 .incident {
-	margin: 4rem 0;
+	margin: 6rem 0;
 }
 </style>
