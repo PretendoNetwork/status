@@ -19,7 +19,15 @@ onServerPrefetch(async () => {
 	await suspense();
 });
 
-const globalStatus = computed(() => !(status.value?.services ?? []).some(v => !v.healthy));
+const globalStatus = computed(() => {
+	const hasUnhealthyService = (status.value?.services ?? []).some(v => !v.healthy);
+
+	const activeIncidents = (status.value?.incidents ?? []).filter(v => v.resolvedAt === null);
+	const hasActualActiveIncidents = activeIncidents.some(v => v.type === 'incident');
+
+	const isHealthy = !hasUnhealthyService && !hasActualActiveIncidents;
+	return isHealthy;
+});
 </script>
 
 <template>
