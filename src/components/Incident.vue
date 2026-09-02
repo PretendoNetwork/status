@@ -1,17 +1,25 @@
 <script setup lang="ts">
 import ContentRenderer from './ContentRenderer.vue';
-import type { PublicIncident } from '~~/shared/types';
+import type { IncidentType, PublicIncident } from '~~/shared/types';
 
 const props = defineProps<{
 	incident: PublicIncident;
 	url?: string;
 }>();
+
+const incidentTypeText: Record<IncidentType, string> = {
+	incident: 'Incident',
+	maintenance: 'Maintenance',
+	notice: 'Notice'
+};
 </script>
 
 <template>
   <div
     class="incident"
     :class="{
+      'type-incident': props.incident.type === 'incident',
+      'type-maintenance': props.incident.type === 'maintenance',
       ongoing: !props.incident.resolvedAt,
     }"
   >
@@ -23,7 +31,7 @@ const props = defineProps<{
         ongoing: !props.incident.resolvedAt,
       }"
     >
-      Incident
+      {{ incidentTypeText[props.incident.type] }}
     </NuxtLink>
     <div class="incident-timeline" />
     <article
@@ -50,7 +58,7 @@ const props = defineProps<{
 <style lang="css" scoped>
 .incident {
 	background-color: var(--bg-shade-0);
-	border: 1px solid var(--bg-shade-3);
+	border: 1px solid var(--bg-shade-4);
 	padding: 2rem;
 	border-radius: 15px;
 	position: relative;
@@ -85,10 +93,17 @@ const props = defineProps<{
 	transform: scale(0.95);
 }
 
-.incident.ongoing {
+.incident.type-maintenance.ongoing {
 	border-color: var(--degraded-1);
 }
-.incident-tag.ongoing {
+.incident.type-maintenance .incident-tag.ongoing {
+	color: var(--text-shade-1);
+}
+
+.incident.type-incident.ongoing {
+	border-color: var(--outage-1);
+}
+.incident.type-incident .incident-tag.ongoing {
 	color: var(--text-shade-1);
 }
 
