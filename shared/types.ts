@@ -28,6 +28,20 @@ export type Incident = {
 	posts: IncidentPost[];
 };
 
+export type PublicIncidentPost = {
+	id: string;
+	createdAt: string;
+	title: string;
+	body: string | null;
+};
+
+export type PublicIncident = {
+	id: string;
+	startedAt: string;
+	resolvedAt: string | null;
+	posts: PublicIncidentPost[];
+};
+
 export type IncidentList = {
 	data: Incident[];
 };

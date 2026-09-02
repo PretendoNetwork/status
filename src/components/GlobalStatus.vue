@@ -34,7 +34,7 @@ const updatedAgo = useTimeAgo(updatedDate, {
       class="updated-text"
     >
       <span v-if="props.updating"><Loader /></span>
-      <span v-else>Last updated {{ updatedAgo }}</span>
+      <span v-else><ClientOnly>Last updated {{ updatedAgo }}</ClientOnly></span>
     </p>
   </div>
 </template>

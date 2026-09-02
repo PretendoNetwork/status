@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import type { Incident } from '~~/shared/types';
+import ContentRenderer from './ContentRenderer.vue';
+import type { PublicIncident } from '~~/shared/types';
 
 const props = defineProps<{
-	incident: Incident;
+	incident: PublicIncident;
+	url?: string;
 }>();
 </script>
 
@@ -13,14 +15,16 @@ const props = defineProps<{
       ongoing: !props.incident.resolvedAt,
     }"
   >
-    <p
+    <NuxtLink
       class="incident-tag"
+      :to="props.url"
       :class="{
+        clickable: !!props.url,
         ongoing: !props.incident.resolvedAt,
       }"
     >
       Incident
-    </p>
+    </NuxtLink>
     <div class="incident-timeline" />
     <article
       v-for="post of props.incident.posts"
@@ -29,17 +33,16 @@ const props = defineProps<{
     >
       <div class="post-dot" />
       <p class="post-date">
-        {{ new Date(post.createdAt).toLocaleString() }}
+        <ClientOnly>{{ new Date(post.createdAt).toLocaleString() }}</ClientOnly>
       </p>
       <h1 class="post-title">
         {{ post.title }}
       </h1>
-      <p
+      <ContentRenderer
         v-if="post.body"
+        :content="post.body"
         class="post-content"
-      >
-        {{ post.body }}
-      </p>
+      />
     </article>
   </div>
 </template>
@@ -63,6 +66,23 @@ const props = defineProps<{
 	padding: 0.1rem 0.8rem;
 	border-radius: 10000px;
 	color: var(--text-shade-2);
+	text-decoration: none;
+	cursor: default;
+	transition:
+		border-color 50ms ease-in-out,
+		color 50ms ease-in-out,
+		transform 50ms ease-in-out;
+}
+
+.incident-tag.clickable {
+	cursor: pointer;
+}
+.incident-tag.clickable:hover {
+	border: 1px solid var(--text-shade-3);
+	text-decoration: none;
+}
+.incident-tag.clickable:active {
+	transform: scale(0.95);
 }
 
 .incident.ongoing {

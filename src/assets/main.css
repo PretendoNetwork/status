@@ -23,3 +23,84 @@ body, html {
 p, h1, h2 {
     margin: 0;
 }
+
+/* Markdown prose */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    font-weight: bold;
+    color: var(--text-shade-1);
+    margin: 1em 0;
+}
+.prose h1 {
+    font-size: 2em;
+}
+.prose h2 {
+    font-size: 1.5em;
+}
+.prose h3 {
+    font-size: 1.2em;
+}
+.prose h4, .prose h5, .prose h6 {
+    font-size: 1.1em;
+}
+
+.prose p {
+    margin-bottom: 1em;
+}
+
+.prose a {
+    font-weight: bold;
+    color: var(--text-shade-1);
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    transition: opacity 50ms ease-in-out;
+}
+.prose a:hover {
+    opacity: .8;
+}
+
+.prose b {
+    font-weight: bold;
+    color: var(--text-shade-1);
+}
+
+.prose hr {
+    height: 1px;
+    border: 0;
+    background: var(--bg-shade-4);
+    margin: 2em 0;
+}
+
+.prose i {
+    font-style: italic;
+}
+
+.prose code {
+    background-color: var(--bg-shade-2);
+    border: 1px solid var(--bg-shade-4);
+    padding: 0.3em 0.5em;
+    font-size: 0.9em;
+    border-radius: 5px;
+    color: var(--text-shade-2);
+}
+
+.prose pre code {
+    display: block;
+    padding: 1em;
+    border-radius: 10px;
+}
+
+.prose blockquote {
+    border-left: 2px solid var(--bg-shade-5);
+    padding: 0.5em 0.5em 0.5em 2em;
+    margin: 1em 0;
+}
+
+.prose blockquote *:last-child {
+    margin-bottom: 0;
+}
+
+
+.prose *:last-child {
+    margin-bottom: 0;
+}

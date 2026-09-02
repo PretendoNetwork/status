@@ -1,58 +1,59 @@
 export default defineNuxtConfig({
-	compatibilityDate: '2026-08-07',
-	srcDir: './src',
-	dir: {
-		public: './src/public'
-	},
+				compatibilityDate: '2026-08-07',
+				srcDir: './src',
+				dir: {
+								public: './src/public'
+				},
 
-	modules: [
-		'@nuxt/eslint',
-		'@nuxt/fonts',
-		'@nuxt/icon'
-	],
+				modules: [
+				 '@nuxt/eslint',
+				 '@nuxt/fonts',
+				 '@nuxt/icon',
+				 '@comark/nuxt'
+				],
 
-	css: ['~/assets/main.css'],
+				css: ['~/assets/main.css'],
 
-	eslint: {
-		config: {
-			standalone: false
-		}
-	},
+				eslint: {
+								config: {
+												standalone: false
+								}
+				},
 
-	runtimeConfig: {
-		nitro: {
-			envPrefix: 'PN_STATUS_'
-		},
+				runtimeConfig: {
+								nitro: {
+												envPrefix: 'PN_STATUS_'
+								},
 
-		databaseUrl: '',
-		checkConfigFile: '',
-		apiKey: '',
+								databaseUrl: '',
+								checkConfigFile: '',
+								apiKey: '',
 
-		public: {
-			homepageUrl: 'https://pretendo.network',
-			supportUrl: 'https://forum.pretendo.network'
-		}
-	},
+								public: {
+												homepageUrl: 'https://pretendo.network',
+												supportUrl: 'https://forum.pretendo.network'
+								}
+				},
 
-	fonts: {
-		defaults: {
-			weights: [400, 700],
-			styles: ['normal', 'italic']
-		}
-	},
+				fonts: {
+								defaults: {
+												weights: [400, 700],
+												styles: ['normal', 'italic']
+								}
+				},
 
-	icon: {
-		clientBundle: {
-			scan: true
-		},
-		provider: 'none',
-		serverBundle: 'local'
-	},
+				icon: {
+								clientBundle: {
+												scan: true
+								},
+								provider: 'none',
+								serverBundle: 'local'
+				},
 
-	components: [
-		{
-			path: '~/components',
-			pathPrefix: false
-		}
-	]
+				components: [
+								{
+												path: '~/components',
+												pathPrefix: false
+								}
+				]
 });

@@ -18,7 +18,7 @@ const lastHealthyAt = computed(() => props.service.lastHealthyAt ? new Date(prop
           v-if="!props.service.healthy && lastHealthyAt"
           class="item-desc"
         >
-          Outage since {{ lastHealthyAt.toLocaleString() }}
+          Outage since <ClientOnly>{{ lastHealthyAt.toLocaleString() }}</ClientOnly>
         </p>
       </div>
       <div>

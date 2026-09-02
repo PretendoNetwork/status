@@ -34,6 +34,7 @@ const globalStatus = computed(() => !(status.value?.services ?? []).some(v => !v
         <Incident
           v-for="incident of (status?.incidents ?? [])"
           :key="incident.id"
+          :url="`/incidents/${incident.id}`"
           :incident="incident"
         />
       </IncidentList>

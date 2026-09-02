@@ -2,7 +2,7 @@ import { getServices } from '../plugins/checker';
 import { Prisma } from '../prisma/generated/client';
 import { defineLocalCacheEventHandler } from '../utils/cache';
 import { getTimelineForRange } from '../utils/timeline';
-import { mapIncident } from './admin/incidents.get';
+import { mapPublicIncident } from './incidents/[incident].get';
 import type { Incident, StatusResponse } from '#shared/types';
 import type { ServiceTimeline } from '../utils/timeline';
 import type { PrismaClient } from '../prisma/generated/client';
@@ -28,7 +28,7 @@ async function getActiveIncidents(prisma: PrismaClient): Promise<Incident[]> {
 		}
 	});
 
-	return activeIncidents.map(mapIncident);
+	return activeIncidents.map(mapPublicIncident);
 }
 
 async function getServiceHealth(prisma: PrismaClient) {
