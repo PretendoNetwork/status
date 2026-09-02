@@ -30,7 +30,13 @@ export function mapPublicIncident(v: Prisma.Incident & { posts: Prisma.IncidentP
 export default defineEventHandler(async (event): Promise<PublicIncident> => {
 	const prisma = usePrisma(event);
 
+	const now = new Date();
 	const incident = await prisma.incident.findFirst({
+		where: {
+			showAt: {
+				lte: now
+			}
+		},
 		include: {
 			posts: {
 				orderBy: {

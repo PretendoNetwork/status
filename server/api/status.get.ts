@@ -3,7 +3,7 @@ import { Prisma } from '../prisma/generated/client';
 import { defineLocalCacheEventHandler } from '../utils/cache';
 import { getTimelineForRange } from '../utils/timeline';
 import { mapPublicIncident } from './incidents/[incident].get';
-import type { Incident, StatusResponse } from '#shared/types';
+import type { PublicIncident, StatusResponse } from '#shared/types';
 import type { ServiceTimeline } from '../utils/timeline';
 import type { PrismaClient } from '../prisma/generated/client';
 
@@ -18,10 +18,14 @@ async function getLast30daysForServices(prisma: PrismaClient): Promise<ServiceTi
 	return getTimelineForRange(prisma, startDay, endDay);
 }
 
-async function getActiveIncidents(prisma: PrismaClient): Promise<Incident[]> {
+async function getActiveIncidents(prisma: PrismaClient): Promise<PublicIncident[]> {
+	const now = new Date();
 	const activeIncidents = await prisma.incident.findMany({
 		where: {
-			resolvedAt: null
+			resolvedAt: null,
+			showAt: {
+				lte: now
+			}
 		},
 		include: {
 			posts: true

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "incidents" ADD COLUMN     "show_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

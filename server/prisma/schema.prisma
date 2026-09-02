@@ -30,6 +30,7 @@ model Incident {
   id         String       @id
   startedAt  DateTime     @default(now()) @map("started_at")
   resolvedAt DateTime?    @map("resolved_at")
+  showAt     DateTime     @default(now()) @map("show_at")
   type       IncidentType @default(Incident)
 
   posts IncidentPost[]

@@ -7,6 +7,7 @@ export function mapIncident(v: Prisma.Incident & { posts: Prisma.IncidentPost[] 
 	return {
 		id: v.id,
 		startedAt: v.startedAt.toISOString(),
+		showAt: v.showAt.toISOString(),
 		resolvedAt: v.resolvedAt?.toISOString() ?? null,
 		type: mapIncidentType(v.type),
 		posts: sortedPosts.map(post => ({
