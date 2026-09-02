@@ -7,6 +7,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum IncidentType {
+  Incident
+  Notice
+  Maintenance
+}
+
 model IncidentPost {
   id        String   @id
   createdAt DateTime @default(now()) @map("created_at")
@@ -21,9 +27,10 @@ model IncidentPost {
 }
 
 model Incident {
-  id         String    @id
-  startedAt  DateTime  @default(now()) @map("started_at")
-  resolvedAt DateTime? @map("resolved_at")
+  id         String       @id
+  startedAt  DateTime     @default(now()) @map("started_at")
+  resolvedAt DateTime?    @map("resolved_at")
+  type       IncidentType @default(Incident)
 
   posts IncidentPost[]
 

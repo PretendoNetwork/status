@@ -14,6 +14,8 @@ export type StatusResponse = {
 	incidents: Incident[];
 };
 
+export type IncidentType = 'incident' | 'maintenance' | 'notice';
+
 export type IncidentPost = {
 	id: string;
 	createdAt: string;
@@ -23,6 +25,7 @@ export type IncidentPost = {
 
 export type Incident = {
 	id: string;
+	type: IncidentType;
 	startedAt: string;
 	resolvedAt: string | null;
 	posts: IncidentPost[];
@@ -37,6 +40,7 @@ export type PublicIncidentPost = {
 
 export type PublicIncident = {
 	id: string;
+	type: IncidentType;
 	startedAt: string;
 	resolvedAt: string | null;
 	posts: PublicIncidentPost[];

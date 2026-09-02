@@ -1,9 +1,11 @@
 import { z } from 'zod';
 import { mapIncident } from '~~/server/api/admin/incidents.get';
+import { IncidentTypeSchema, mapIncidentTypeToDb } from '../incidents.post';
 import type { Incident } from '#shared/types';
 
 export const IncidentEditSchema = z.object({
-	resolvedAt: z.iso.datetime().nullable().optional()
+	resolvedAt: z.iso.datetime().nullable().optional(),
+	type: IncidentTypeSchema.optional()
 });
 
 export default defineEventHandler(async (event): Promise<Incident> => {
@@ -17,7 +19,8 @@ export default defineEventHandler(async (event): Promise<Incident> => {
 			id: incidentId
 		},
 		data: {
-			resolvedAt: body.resolvedAt
+			resolvedAt: body.resolvedAt,
+			type: body.type ? mapIncidentTypeToDb(body.type) : undefined
 		},
 		include: {
 			posts: true

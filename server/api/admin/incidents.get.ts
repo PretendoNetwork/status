@@ -1,3 +1,4 @@
+import { mapIncidentType } from '../incidents/[incident].get';
 import type { Incident, IncidentList } from '#shared/types';
 import type * as Prisma from '../../prisma/generated/client';
 
@@ -7,6 +8,7 @@ export function mapIncident(v: Prisma.Incident & { posts: Prisma.IncidentPost[] 
 		id: v.id,
 		startedAt: v.startedAt.toISOString(),
 		resolvedAt: v.resolvedAt?.toISOString() ?? null,
+		type: mapIncidentType(v.type),
 		posts: sortedPosts.map(post => ({
 			id: post.id,
 			createdAt: post.createdAt.toISOString(),
