@@ -46,13 +46,14 @@ const globalStatus = computed(() => {
           :incident="incident"
         />
       </IncidentList>
-      <ServiceGroup>
-        <Service
-          v-for="svc of (status?.services ?? [])"
-          :key="svc.id"
-          :service="svc"
+      <RenderComponentWrapper>
+        <RenderComponent
+          v-for="(comp, i) of status?.components ?? []"
+          :key="i"
+          :component="comp"
+          :services="status?.services ?? []"
         />
-      </ServiceGroup>
+      </RenderComponentWrapper>
     </Container>
   </div>
 </template>
