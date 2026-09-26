@@ -1,4 +1,4 @@
-import { getServices } from '../plugins/checker';
+import { getComponents, getServices } from '../plugins/checker';
 import { Prisma } from '../prisma/generated/client';
 import { defineLocalCacheEventHandler } from '../utils/cache';
 import { getTimelineForRange } from '../utils/timeline';
@@ -102,6 +102,7 @@ export default defineLocalCacheEventHandler<StatusResponse>('status-cache', 5, a
 	const incidents = await getActiveIncidents(prisma);
 
 	return {
+		components: getComponents(),
 		services: services.map((v) => {
 			const svcHealth = serviceHealthMap[v.id] ?? { healthy: false, lastHealthyAt: null };
 			return {

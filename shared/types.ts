@@ -9,7 +9,22 @@ export type StatusService = {
 	timeline: StatusServiceTimeline;
 };
 
+export type GroupComponentResponse = {
+	type: 'group';
+	title?: string;
+	subtitle?: string;
+	services: string[];
+};
+
+export type ServiceListComponentResponse = {
+	type: 'svclist';
+	services: string[];
+};
+
+export type ComponentResponse = GroupComponentResponse | ServiceListComponentResponse;
+
 export type StatusResponse = {
+	components: ComponentResponse[];
 	services: StatusService[];
 	incidents: PublicIncident[];
 };
