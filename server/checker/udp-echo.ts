@@ -10,12 +10,12 @@ export const UdpEchoCheckSchema = z.object({
 	port: z.number()
 });
 
-const socket = dgram.createSocket('udp4');
 const socketTimeout = 5 * 1000; // 5 seconds
 
 export type UdpEchoCheck = CheckCommon<typeof UdpEchoCheckSchema>;
 
 export async function executeUdpEchoCheck(check: UdpEchoCheck): Promise<CheckResult> {
+	const socket = dgram.createSocket('udp4');
 	try {
 		await new Promise<void>((resolve, reject) => {
 			const uuid = crypto.randomUUID();
@@ -55,5 +55,7 @@ export async function executeUdpEchoCheck(check: UdpEchoCheck): Promise<CheckRes
 		return {
 			ok: false
 		};
+	} finally {
+		socket.close();
 	}
 }
