@@ -18,12 +18,25 @@ async function processHourRollup(prisma: PrismaClient, hourStart: Date) {
 				}
 			},
 			_count: {
+				_all: true
+			}
+		});
+		const successChecks = await tx.checkResult.groupBy({
+			by: ['checkId'],
+			where: {
 				success: true,
+				checkedAt: {
+					gte: hourStart,
+					lt: hourEnd
+				}
+			},
+			_count: {
 				_all: true
 			}
 		});
 
 		for (const group of checks) {
+			const successCount = successChecks.find(v => v.checkId === group.checkId)?._count?._all ?? 0;
 			await tx.checkResultBucket.upsert({
 				where: {
 					checkId_resolution_timestamp: {
@@ -38,11 +51,11 @@ async function processHourRollup(prisma: PrismaClient, hourStart: Date) {
 					timestamp: hourStart,
 					resolution: 'Hour',
 					totalChecks: group._count._all,
-					successChecks: group._count.success
+					successChecks: successCount
 				},
 				update: {
 					totalChecks: group._count._all,
-					successChecks: group._count.success
+					successChecks: successCount
 				}
 			});
 		}
