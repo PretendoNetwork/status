@@ -3,7 +3,9 @@ import { z } from 'zod';
 import { consola } from 'consola';
 import { executeHttpCheck, HttpCheckSchema } from './http';
 import { executeUdpEchoCheck, UdpEchoCheckSchema } from './udp-echo';
+import { DnsCheckSchema, executeDnsCheck } from './dns';
 import type { PrismaClient } from '../prisma/generated/client';
+import type { DnsCheck } from './dns';
 import type { HttpCheck } from './http';
 import type { UdpEchoCheck } from './udp-echo';
 
@@ -20,7 +22,8 @@ export const CheckSchema = z.object({
 	schedule: z.string(),
 	options: z.discriminatedUnion('type', [
 		HttpCheckSchema,
-		UdpEchoCheckSchema
+		UdpEchoCheckSchema,
+		DnsCheckSchema
 	])
 });
 
@@ -36,6 +39,9 @@ export async function executeCheck(check: Check): Promise<CheckResult> {
 	}
 	if (check.options.type === 'udp-echo') {
 		return await executeUdpEchoCheck(check as UdpEchoCheck);
+	}
+	if (check.options.type === 'dns') {
+		return await executeDnsCheck(check as DnsCheck);
 	}
 
 	throw new Error('Invalid check type');
