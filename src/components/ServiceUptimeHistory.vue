@@ -102,20 +102,28 @@ const dayInfos = computed(() => {
 	border-radius: 50px;
 	opacity: .7;
 	flex: 1;
-	background-color: var(--operational-1);
+	background: var(--operational-1);
 	transition:
 		opacity 50ms ease-in-out,
 		transform 100ms ease-in-out;
 }
 .grid-item.blank {
 	pointer-events: none;
-	background-color: var(--bg-shade-4);
+	background: var(--bg-shade-4);
 }
 .grid-item.degraded {
-	background-color: var(--degraded-1);
+	background:
+		repeating-linear-gradient(
+			45deg,
+			var(--degraded-1),
+			var(--degraded-1) 4px,
+			var(--degraded-2) 4px,
+			var(--degraded-2) 8px
+		),
+		var(--degraded-2);
 }
 .grid-item.outage {
-	background-color: var(--outage-1);
+	background: var(--outage-1);
 }
 
 .grid-item:hover {
