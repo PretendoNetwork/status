@@ -1,7 +1,9 @@
 <template>
   <div>
-    <Navbar />
-    <slot />
-    <Footer />
+    <TooltipProvider>
+      <Navbar />
+      <slot />
+      <Footer />
+    </TooltipProvider>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useNow } from '@vueuse/core';
+import { Tooltip } from 'reka-ui/namespaced';
 import type { StatusServiceTimeline } from '~~/shared/types';
 
 const props = defineProps<{
@@ -58,16 +59,36 @@ const dayInfos = computed(() => {
 
 <template>
   <div class="grid">
-    <div
+    <template
       v-for="dayInfo of dayInfos"
       :key="dayInfo.day"
-      class="grid-item"
-      :class="{
-        blank: dayInfo.isBlank,
-        degraded: dayInfo.isDegraded,
-        outage: dayInfo.isOutage,
-      }"
-    />
+    >
+      <Tooltip.Root
+        :delay-duration="0"
+        disable-closing-trigger
+        disable-hoverable-content
+      >
+        <Tooltip.Trigger as-child>
+          <div
+            class="grid-item"
+            :class="{
+              blank: dayInfo.isBlank,
+              degraded: dayInfo.isDegraded,
+              outage: dayInfo.isOutage,
+            }"
+          />
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content
+            class="global--grid-item-tooltip"
+            :side-offset="5"
+            side="bottom"
+          >
+            <ClientOnly>{{ new Date(dayInfo.day).toLocaleDateString() }}</ClientOnly>  -  {{ dayInfo.uptime.toFixed(2) }}%
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </template>
   </div>
 </template>
 
@@ -100,5 +121,31 @@ const dayInfos = computed(() => {
 .grid-item:hover {
 	opacity: 1;
 	transform: scale(1.25);
+}
+</style>
+
+<style lang="css">
+.global--grid-item-tooltip {
+	background-color: var(--bg-shade-0);
+	border: 1px solid var(--bg-shade-4);
+	color: var(--text-shade-2);
+	border-radius: 10px;
+	font-size: 0.8rem;
+	padding: 0.4rem 0.8rem;
+
+	animation-duration: 250ms;
+  will-change: transform, opacity;
+	animation-name: tooltipAnim;
+}
+
+@keyframes tooltipAnim {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
