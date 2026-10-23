@@ -4,6 +4,9 @@
 	"description": "Status page for pretendo",
 	"license": "AGPL-3.0-only",
 	"type": "module",
+	"engines": {
+		"node": "^24.22.1"
+	},
 	"scripts": {
 		"start": "node --env-file=.env --enable-source-maps .output/server/index.mjs",
 		"build": "prisma generate && nuxt build",
